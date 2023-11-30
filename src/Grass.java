@@ -8,7 +8,7 @@ import java.util.List;
 import java.util.Random;
 
 public class Grass implements NonBlocking, Actor {
-    int growthRate = 5;
+    int growthRate = 1;
 
     /** Has a random chance to 'grow' another tile of grass. Chance is equal to growthRate% **/
     @Override

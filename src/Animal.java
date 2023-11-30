@@ -13,10 +13,23 @@ public abstract class Animal implements Actor {
     int vision_range;
     int age;
     int energy;
-    abstract void eat();
 
-    abstract void die();
+    String size;
+    Location loc;
+    Animal(World world, Location loc){
+        this.world = world;
+        this.loc = loc;
+    }
+    public void eat(){
+        world.delete(world.getNonBlocking(loc));
+        this.energy += 25;
+    }
 
+    void die(){
+        world.delete(this);
+        world.delete(world.getNonBlocking(loc));
+        world.setTile(loc, new Carcass(size));
+    }
     abstract void reproduce();
 
     void randomMove(){
@@ -51,7 +64,7 @@ public abstract class Animal implements Actor {
     }
     public Location search(Class c){
         for (int i = 1 ; i <= vision_range; i++){
-            Set<Location> tiles = world.getSurroundingTiles(world.getLocation(this), i);
+            Set<Location> tiles = world.getSurroundingTiles(loc, i);
             for (Location tile : tiles){
                 if (c.isInstance(world.getTile(tile))) {
                     return tile;
