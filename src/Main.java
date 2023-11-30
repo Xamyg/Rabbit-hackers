@@ -42,6 +42,7 @@ public class Main {
 
         p.setDisplayInformation(Rabbit.class, new DisplayInformation(Color.red, "rabbit-large"));
         p.setDisplayInformation(Grass.class, new DisplayInformation(Color.green, "grass"));
+        p.setDisplayInformation(Burrow.class, new DisplayInformation(Color.ORANGE, "hole-small"));
 
         while (s.hasNext()) {
             String objectType = s.next();

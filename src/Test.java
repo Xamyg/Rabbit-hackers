@@ -1,17 +1,20 @@
-import java.io.File;
-import java.io.FileNotFoundException;
-import java.io.PrintWriter;
+import static org.junit.jupiter.api.Assertions.*;
+import org.junit.jupiter.api.*;
+
+
+
 
 public class Test {
-    public static void test1(){
-        try {
-            PrintWriter pw = new PrintWriter("./testOutput.txt");
-            pw.println(4);
-            pw.print("rabbit 9");
+    @BeforeEach
+    public void setUp(){
 
-            Main.readFile(new File("./testOutput.txt"));
-        } catch (FileNotFoundException e){
-            System.out.println(e.getMessage());
-        }
+    }
+    @Test
+    public void test1{
+
+    }
+    @AfterEach
+    void tearDown{
+
     }
 }

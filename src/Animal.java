@@ -5,13 +5,14 @@ import itumulator.world.World;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Random;
+import java.util.Set;
 
 public abstract class Animal implements Actor {
     World world;
     boolean isNight = false;
     int vision_range;
     int age;
-    int food;
+    int energy;
     abstract void eat();
 
     abstract void die();
@@ -20,8 +21,45 @@ public abstract class Animal implements Actor {
 
     void randomMove(){
         List<Location> list = new ArrayList<>(world.getEmptySurroundingTiles());
-        Random r = new Random();
-        Location l = list.get(r.nextInt(list.toArray().length - 1));
-        world.move(this, l);
+        if (list.toArray().length > 0) {
+            Random r = new Random();
+            Location l = list.get(r.nextInt(list.toArray().length));
+            world.move(this, l);
+        }
+    }
+    void moveTowards(Location location){
+        if (location == null){
+            randomMove();
+        } else {
+            int x = world.getLocation(this).getX();
+            int y = world.getLocation(this).getY();
+            if (location.getX() > x) {
+                x++;
+            } else if (location.getX() < x) {
+                x--;
+            }
+            if (location.getY() > y) {
+                y++;
+            } else if (location.getY() < y) {
+                y--;
+            }
+            Location l = new Location(x, y);
+            if (world.isTileEmpty(l)) {
+                world.move(this, l);
+            }
+        }
+    }
+    public Location search(Class c){
+        for (int i = 1 ; i <= vision_range; i++){
+            Set<Location> tiles = world.getSurroundingTiles(world.getLocation(this), i);
+            for (Location tile : tiles){
+                if (c.isInstance(world.getTile(tile))) {
+                    return tile;
+                } else if (world.containsNonBlocking(tile) && c.isInstance(world.getNonBlocking(tile))){
+                    return tile;
+                }
+            }
+        }
+        return null;
     }
 }
